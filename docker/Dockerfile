@@ -28,5 +28,10 @@ WORKDIR /app/loconotion/
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+# Install NodeJS and netlify-cli
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs && npm install netlify-cli --unsafe-perm=true -g
+
 COPY . .
-ENTRYPOINT [ "python", "loconotion", "--chromedriver", "/chromedriver/chromedriver"]
+
+ENTRYPOINT ["./loconotion-to-netlify.sh"]
